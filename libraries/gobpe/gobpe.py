@@ -49,9 +49,12 @@ class GOBPE():
         self.browser.go_to(url)
         
     def read_files_to_download_excel(self):
-            files.open_workbook("Files_To_Download.xlsx")
-            self.excel_data_dict_list = files.read_worksheet(name = "Sheet1", header = True)
-            files.close_workbook()
+        """
+        Read excel with the files that require download
+        """
+        files.open_workbook("Files_To_Download.xlsx")
+        self.excel_data_dict_list = files.read_worksheet(name = "Sheet1", header = True)
+        files.close_workbook()
 
     def download_Files(self):
         """
