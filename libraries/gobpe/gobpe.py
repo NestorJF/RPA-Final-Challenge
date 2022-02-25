@@ -32,7 +32,6 @@ class GOBPE():
         self.switch_to_specified_section()
         act_on_element('//a[@data-origin="onpe-publicaciones-ver-más-link"]', 'click_element')
         
-
     def switch_to_specified_section(self):
         """
         Select the menu specified in the text file
@@ -48,6 +47,11 @@ class GOBPE():
         until_date = datetime.today().strftime("%d-%m-%Y")
         url = "https://www.gob.pe/busquedas?contenido[]=publicaciones&desde={}&hasta={}&institucion[]=onpe&sheet=1&sort_by=recent".format(since_date, until_date)
         self.browser.go_to(url)
+        
+    def read_files_to_download_excel(self):
+            files.open_workbook("Files_To_Download.xlsx")
+            self.excel_data_dict_list = files.read_worksheet(name = "Sheet1", header = True)
+            files.close_workbook()
 
     def download_Files(self):
         """
@@ -61,7 +65,6 @@ class GOBPE():
                 download_button = report_element.find_element_by_xpath('.//a[text() = "Descargar"]')
                 act_on_element(download_button, 'click_element')
                 check_file_download_complete("pdf", 20)
-
 
     def read_pdf_reports(self):
         """
@@ -83,7 +86,6 @@ class GOBPE():
                 self.result_text = self.result_text + "File Name: " + file_name + "\n"
                 self.result_text = self.result_text + "----------------------" + "\n"
 
-
     def write_data_excel(self):
         """
         Writes the results to an excel file.
@@ -100,7 +102,3 @@ class GOBPE():
         """
         file_system.create_file("{}/Results.txt".format(OUTPUT_FOLDER), content = self.result_text, encoding = 'utf-8', overwrite = True)
 
-    def read_files_to_download_excel(self):
-            files.open_workbook("Files_To_Download.xlsx")
-            self.excel_data_dict_list = files.read_worksheet(name = "Sheet1", header = True)
-            files.close_workbook()
